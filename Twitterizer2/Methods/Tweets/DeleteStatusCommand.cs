@@ -54,14 +54,14 @@ namespace Twitterizer.Commands
         /// <param name="tokens">The tokens.</param>
         /// <param name="id">The status id.</param>
         /// <param name="options">The options.</param>
-        public DeleteStatusCommand(OAuthTokens tokens, decimal id, OptionalProperties options)
+        public DeleteStatusCommand(OAuthTokens tokens, string id, OptionalProperties options)
             : base(
                 HTTPVerb.POST, 
                 string.Format(CultureInfo.InvariantCulture, "statuses/destroy/{0}.json", id), 
                 tokens, 
                 options)
         {
-            this.Id = id;
+            this.IdString = id;
         }
         #endregion
 
@@ -69,7 +69,7 @@ namespace Twitterizer.Commands
         /// Gets or sets the status id.
         /// </summary>
         /// <value>The status id.</value>
-        public decimal Id { get; set; }
+        public string IdString { get; set; }
 
         /// <summary>
         /// Initializes the command.

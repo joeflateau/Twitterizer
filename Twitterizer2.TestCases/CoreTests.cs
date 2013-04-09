@@ -29,10 +29,9 @@ namespace Twitterizer2.TestCases
 
             var interfacesToImplement = new List<Type>();
             interfacesToImplement.Add(twitterizerAssembly.GetType("Twitterizer.Core.ICommand`1"));
-            interfacesToImplement.Add(twitterizerAssembly.GetType("Twitterizer.Core.ITwitterCommand`1"));
 
             var baseClassesToInherit = new List<Type>();
-            baseClassesToInherit.Add(twitterizerAssembly.GetType("Twitterizer.Commands.PagedTimelineCommand`1"));
+            //baseClassesToInherit.Add(twitterizerAssembly.GetType("Twitterizer.Commands.PagedTimelineCommand"));
 
             var commandTypesToCheck = from t in twitterizerAssembly.GetTypes()
                                       where
@@ -87,7 +86,6 @@ namespace Twitterizer2.TestCases
 
             TwitterResponse<TwitterStatusCollection> timeline = TwitterTimeline.HomeTimeline(Configuration.GetTokens(), new TimelineOptions { UseSSL = true });
             Assert.That(timeline.RequestUrl.StartsWith("https://"));
-            Assert.That(user.RequestUrl.StartsWith("https://"));
         }
 
         [Test]

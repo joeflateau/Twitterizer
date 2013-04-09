@@ -54,7 +54,7 @@ namespace Twitterizer
         /// Gets or sets the minimum (earliest) status id to request.
         /// </summary>
         /// <value>The since id.</value>
-        public decimal SinceStatusId { get; set; }
+        public string SinceStatusId { get; set; }
 
         /// <summary>
         /// Gets or sets the max (latest) status id to request.
@@ -111,7 +111,7 @@ namespace Twitterizer
 
             command.RequestParameters.Add("page", options.Page > 0 ? options.Page.ToString() : "1");
 
-            if (options.SinceStatusId > 0)
+            if (options.SinceStatusId != null)
                 command.RequestParameters.Add("since_id", options.SinceStatusId.ToString());
 
             if (options.SkipUser)

@@ -18,7 +18,7 @@
         /// <param name="timeout">The timeout.</param>
         /// <param name="function">The function.</param>
         /// <returns></returns>
-        public static IAsyncResult AddMember(OAuthTokens tokens, string ownerUsername, string listId, decimal userIdToAdd, OptionalProperties options, TimeSpan timeout, Action<TwitterAsyncResponse<TwitterList>> function)
+        public static IAsyncResult AddMember(OAuthTokens tokens, string ownerUsername, string listId, string userIdToAdd, OptionalProperties options, TimeSpan timeout, Action<TwitterAsyncResponse<TwitterList>> function)
         {
             return AsyncUtility.ExecuteAsyncMethod(tokens, ownerUsername, listId, userIdToAdd, options, timeout, TwitterList.AddMember, function);
         }
@@ -34,7 +34,7 @@
         /// <param name="timeout">The timeout.</param>
         /// <param name="function">The function.</param>
         /// <returns></returns>
-        public static IAsyncResult CheckMembership(OAuthTokens tokens, string ownerUsername, string listId, decimal userId, OptionalProperties options, TimeSpan timeout, Action<TwitterAsyncResponse<TwitterUser>> function)
+        public static IAsyncResult CheckMembership(OAuthTokens tokens, string ownerUsername, string listId, string userId, OptionalProperties options, TimeSpan timeout, Action<TwitterAsyncResponse<TwitterUser>> function)
         {
             return AsyncUtility.ExecuteAsyncMethod(tokens, ownerUsername, listId, userId, options, timeout, TwitterList.CheckMembership, function);
         }
@@ -223,7 +223,7 @@
             OAuthTokens tokens, 
             string ownerUsername, 
             string listId, 
-            decimal userIdToAdd, 
+            string userIdToAdd, 
             OptionalProperties options, 
             TimeSpan timeout,
             Action<TwitterAsyncResponse<TwitterList>> function)

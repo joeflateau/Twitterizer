@@ -51,7 +51,7 @@ namespace Twitterizer.Commands
         /// Gets or sets the status id.
         /// </summary>
         /// <value>The status id.</value>
-        public decimal StatusId { get; set; }
+        public string StatusId { get; set; }
 
         #region Constructors
         /// <summary>
@@ -60,7 +60,7 @@ namespace Twitterizer.Commands
         /// <param name="tokens">The request tokens.</param>
         /// <param name="statusId">The status id.</param>
         /// <param name="options">The options.</param>
-        public RetweetsCommand(OAuthTokens tokens, decimal statusId, RetweetsOptions options)
+        public RetweetsCommand(OAuthTokens tokens, string statusId, RetweetsOptions options)
             : base(
                 HTTPVerb.GET,
                 string.Format(CultureInfo.InvariantCulture, "statuses/retweets/{0}.json", statusId),
@@ -72,7 +72,7 @@ namespace Twitterizer.Commands
                 throw new ArgumentNullException("tokens");
             }
 
-            if (statusId <= 0)
+            if (statusId == null)
             {
                 throw new ArgumentNullException("statusId");
             }

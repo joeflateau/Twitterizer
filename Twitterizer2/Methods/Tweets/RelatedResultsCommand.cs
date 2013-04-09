@@ -55,14 +55,14 @@ namespace Twitterizer.Commands
         /// <param name="tokens">The request tokens.</param>
         /// <param name="statusId">The status id.</param>
         /// <param name="options">The options.</param>
-        public RelatedResultsCommand(OAuthTokens tokens, decimal statusId, OptionalProperties options)
+        public RelatedResultsCommand(OAuthTokens tokens, string statusId, OptionalProperties options)
             : base(
                 HTTPVerb.GET,
                 string.Format(CultureInfo.InvariantCulture, Path, statusId),
                 tokens,
                 options)
         {
-            if (statusId <= 0)
+            if (statusId == null)
             {
                 throw new ArgumentException("Status ID is invalid", "statusId");
             }

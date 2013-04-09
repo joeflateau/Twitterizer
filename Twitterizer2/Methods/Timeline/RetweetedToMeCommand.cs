@@ -73,7 +73,7 @@ namespace Twitterizer.Commands
                 return;
             }
 
-            if (options.SinceStatusId > 0)
+            if (options.SinceStatusId != null)
                 this.RequestParameters.Add("since_id", options.SinceStatusId.ToString(CultureInfo.InvariantCulture));
 
             if (options.MaxStatusId > 0)

@@ -49,7 +49,7 @@ namespace Twitterizer
         /// <param name="timeout">The timeout.</param>
         /// <param name="function">The function.</param>
         /// <returns></returns>
-        public static IAsyncResult Create(OAuthTokens tokens, decimal statusId, OptionalProperties options, TimeSpan timeout, Action<TwitterAsyncResponse<TwitterStatus>> function)
+        public static IAsyncResult Create(OAuthTokens tokens, string statusId, OptionalProperties options, TimeSpan timeout, Action<TwitterAsyncResponse<TwitterStatus>> function)
         {
             return AsyncUtility.ExecuteAsyncMethod(tokens, statusId, options, timeout, TwitterFavorite.Create, function);
         }
@@ -63,7 +63,7 @@ namespace Twitterizer
         /// <param name="timeout">The timeout.</param>
         /// <param name="function">The function.</param>
         /// <returns></returns>
-        public static IAsyncResult Delete(OAuthTokens tokens, decimal statusId, OptionalProperties options, TimeSpan timeout, Action<TwitterAsyncResponse<TwitterStatus>> function)
+        public static IAsyncResult Delete(OAuthTokens tokens, string statusId, OptionalProperties options, TimeSpan timeout, Action<TwitterAsyncResponse<TwitterStatus>> function)
         {
             return AsyncUtility.ExecuteAsyncMethod(tokens, statusId, options, timeout, TwitterFavorite.Delete, function);
         }

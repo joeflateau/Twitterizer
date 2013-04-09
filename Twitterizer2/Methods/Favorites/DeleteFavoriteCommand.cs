@@ -55,10 +55,10 @@ namespace Twitterizer.Commands
         /// <param name="tokens">The tokens.</param>
         /// <param name="statusId">The status id.</param>
         /// <param name="options">The options.</param>
-        public DeleteFavoriteCommand(OAuthTokens tokens, decimal statusId, OptionalProperties options)
+        public DeleteFavoriteCommand(OAuthTokens tokens, string statusId, OptionalProperties options)
             : base(HTTPVerb.POST, string.Format(CultureInfo.InvariantCulture.NumberFormat, "favorites/destroy/{0}.json", statusId), tokens, options)
         {
-            if (statusId <= 0)
+            if (statusId == null)
             {
                 throw new ArgumentException("Status Id is required.");
             }

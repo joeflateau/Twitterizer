@@ -53,18 +53,11 @@ namespace Twitterizer
     {
         #region Properties
         /// <summary>
-        /// Gets or sets the User ID.
-        /// </summary>
-        /// <value>The User ID.</value>
-        [DataMember, JsonProperty(PropertyName = "id")]
-        public decimal Id { get; set; }
-
-        /// <summary>
         /// Gets or sets the string id.
         /// </summary>
         /// <value>The string id.</value>
         [DataMember, JsonProperty(PropertyName = "str_id")]
-        public string StringId { get; set; }
+        public string IdString { get; set; }
 
         /// <summary>
         /// Gets or sets the name of the user.

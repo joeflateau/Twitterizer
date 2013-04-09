@@ -21,14 +21,14 @@
             Assert.IsNotNull(response.ResponseObject);
             Assert.That(response.ResponseObject.Count > 0);
 
-            decimal firstId = response.ResponseObject[0].Id;
+            string firstId = response.ResponseObject[0].IdString;
 
             response = TwitterTimeline.Mentions(tokens, new TimelineOptions { Page = ++response.ResponseObject.Page });
             Assert.IsNotNull(response);
             Assert.That(response.Result == RequestResult.Success);
             Assert.IsNotNull(response.ResponseObject);
             Assert.That(response.ResponseObject.Count > 0);
-            Assert.AreNotEqual(response.ResponseObject[0].Id, firstId);
+            Assert.AreNotEqual(response.ResponseObject[0].IdString, firstId);
         }
 
         [Test]
@@ -46,14 +46,14 @@
             Assert.IsNotNull(response.ResponseObject);
             Assert.That(response.ResponseObject.Count > 0);
 
-            decimal firstId = response.ResponseObject[0].Id;
+            string firstId = response.ResponseObject[0].IdString;
 
             response = TwitterTimeline.UserTimeline(tokens, new UserTimelineOptions { Page = ++response.ResponseObject.Page });
             Assert.IsNotNull(response);
             Assert.That(response.Result == RequestResult.Success);
             Assert.IsNotNull(response.ResponseObject);
             Assert.That(response.ResponseObject.Count > 0);
-            Assert.AreNotEqual(response.ResponseObject[0].Id, firstId);
+            Assert.AreNotEqual(response.ResponseObject[0].IdString, firstId);
         }
 
         [Test]
@@ -73,7 +73,7 @@
             Assert.IsNotNull(response.ResponseObject);
             Assert.That(response.ResponseObject.Count > 0);
 
-            decimal firstId = response.ResponseObject[0].Id;
+            string firstId = response.ResponseObject[0].IdString;
 
 #pragma warning disable 618
             response = TwitterTimeline.FriendTimeline(tokens, new TimelineOptions { Page = ++response.ResponseObject.Page });
@@ -82,7 +82,7 @@
             Assert.That(response.Result == RequestResult.Success);
             Assert.IsNotNull(response.ResponseObject);
             Assert.That(response.ResponseObject.Count > 0);
-            Assert.AreNotEqual(response.ResponseObject[0].Id, firstId);
+            Assert.AreNotEqual(response.ResponseObject[0].IdString, firstId);
         }
 
         [Test]
@@ -100,14 +100,14 @@
             Assert.IsNotNull(response.ResponseObject);
             Assert.That(response.ResponseObject.Count > 0);
 
-            decimal firstId = response.ResponseObject[0].Id;
+            string firstId = response.ResponseObject[0].IdString;
 
             response = TwitterTimeline.HomeTimeline(tokens, new TimelineOptions { Page = ++response.ResponseObject.Page });
             Assert.IsNotNull(response);
             Assert.That(response.Result == RequestResult.Success);
             Assert.IsNotNull(response.ResponseObject);
             Assert.That(response.ResponseObject.Count > 0);
-            Assert.AreNotEqual(response.ResponseObject[0].Id, firstId);
+            Assert.AreNotEqual(response.ResponseObject[0].IdString, firstId);
         }
 
         [Test]
@@ -125,14 +125,14 @@
             Assert.IsNotNull(response.ResponseObject);
             Assert.That(response.ResponseObject.Count > 0);
 
-            decimal firstId = response.ResponseObject[0].Id;
+            string firstId = response.ResponseObject[0].IdString;
 
             response = TwitterFriendship.Followers(tokens, new FollowersOptions { ScreenName = "twitterapi", Cursor = response.ResponseObject.NextCursor });
             Assert.IsNotNull(response);
             Assert.That(response.Result == RequestResult.Success);
             Assert.IsNotNull(response.ResponseObject);
             Assert.That(response.ResponseObject.Count > 0);
-            Assert.AreNotEqual(response.ResponseObject[0].Id, firstId);
+            Assert.AreNotEqual(response.ResponseObject[0].IdString, firstId);
         }
 
         [Test]

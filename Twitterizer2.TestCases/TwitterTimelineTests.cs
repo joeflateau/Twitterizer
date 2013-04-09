@@ -124,7 +124,7 @@ namespace Twitterizer2.TestCases
 
             PerformCommonTimelineTests(timelineResponse);
 
-            decimal mostRecentId = timelineResponse.ResponseObject[0].Id;
+            string mostRecentId = timelineResponse.ResponseObject[0].IdString;
 
             TwitterResponse<TwitterStatusCollection> timeline2 = TwitterTimeline.Mentions(tokens, new TimelineOptions
             {

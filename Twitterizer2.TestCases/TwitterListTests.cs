@@ -85,7 +85,7 @@ namespace Twitterizer2.TestCases
 
             string testListIgnore = "test-list-ignore";
             TwitterUser myUser = TwitterAccount.VerifyCredentials(tokens).ResponseObject;
-            var userIdToAdd = TwitterUser.Show(tokens, userName).ResponseObject.Id;
+            var userIdToAdd = TwitterUser.Show(tokens, userName).ResponseObject.IdString;
 
             var listResponse = TwitterList.Show(tokens, testListIgnore);
             if (listResponse.Result == RequestResult.FileNotFound)
@@ -122,7 +122,7 @@ namespace Twitterizer2.TestCases
                 tokens,
                 "twitterapi",
                 "team",
-                secondUserResponse.ResponseObject.Id);
+                secondUserResponse.ResponseObject.IdString);
 
             Assert.IsNotNull(membershipResponse);
             Assert.That(membershipResponse.Result == RequestResult.Success);

@@ -52,7 +52,7 @@ namespace Twitterizer
         /// <param name="statusId">The status id.</param>
         /// <param name="options">The options.</param>
         /// <returns>The favorite status when successful.</returns>
-        public static TwitterResponse<TwitterStatus> Create(OAuthTokens tokens, decimal statusId, OptionalProperties options)
+        public static TwitterResponse<TwitterStatus> Create(OAuthTokens tokens, string statusId, OptionalProperties options)
         {
             return CommandPerformer.PerformAction(
                 new Commands.CreateFavoriteCommand(tokens, statusId, options));
@@ -64,7 +64,7 @@ namespace Twitterizer
         /// <param name="tokens">The tokens.</param>
         /// <param name="statusId">The status id.</param>
         /// <returns>The favorite status when successful.</returns>
-        public static TwitterResponse<TwitterStatus> Create(OAuthTokens tokens, decimal statusId)
+        public static TwitterResponse<TwitterStatus> Create(OAuthTokens tokens, string statusId)
         {
             return Create(tokens, statusId, null);
         }
@@ -76,7 +76,7 @@ namespace Twitterizer
         /// <param name="statusId">The status id.</param>
         /// <param name="options">The options.</param>
         /// <returns>The un-favorited status in the requested format when successful.</returns>
-        public static TwitterResponse<TwitterStatus> Delete(OAuthTokens tokens, decimal statusId, OptionalProperties options)
+        public static TwitterResponse<TwitterStatus> Delete(OAuthTokens tokens, string statusId, OptionalProperties options)
         {
             return CommandPerformer.PerformAction(
                 new Commands.DeleteFavoriteCommand(tokens, statusId, options));
@@ -90,7 +90,7 @@ namespace Twitterizer
         /// <returns>
         /// The un-favorited status in the requested format when successful.
         /// </returns>
-        public static TwitterResponse<TwitterStatus> Delete(OAuthTokens tokens, decimal statusId)
+        public static TwitterResponse<TwitterStatus> Delete(OAuthTokens tokens, string statusId)
         {
             return Delete(tokens, statusId, null);
         }

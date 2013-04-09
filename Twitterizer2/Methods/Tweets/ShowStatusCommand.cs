@@ -54,14 +54,14 @@ namespace Twitterizer.Commands
         /// <param name="requestTokens">The request tokens.</param>
         /// <param name="statusId">The status id.</param>
         /// <param name="options">The options.</param>
-        public ShowStatusCommand(OAuthTokens requestTokens, decimal statusId, OptionalProperties options)
+        public ShowStatusCommand(OAuthTokens requestTokens, string statusId, OptionalProperties options)
             : base(
                 HTTPVerb.GET, 
                 string.Format(CultureInfo.InvariantCulture, "statuses/show/{0}.json", statusId), 
                 requestTokens, 
                 options)
         {
-            if (statusId <= 0)
+            if (statusId == null)
             {
                 throw new ArgumentNullException("statusId");
             }

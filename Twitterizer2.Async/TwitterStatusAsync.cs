@@ -49,7 +49,7 @@ namespace Twitterizer
         /// <param name="timeout">The timeout.</param>
         /// <param name="function">The function.</param>
         /// <returns></returns>
-        public static IAsyncResult Delete(OAuthTokens tokens, decimal id, OptionalProperties options, TimeSpan timeout, Action<TwitterAsyncResponse<TwitterStatus>> function)
+        public static IAsyncResult Delete(OAuthTokens tokens, string id, OptionalProperties options, TimeSpan timeout, Action<TwitterAsyncResponse<TwitterStatus>> function)
         {
             return AsyncUtility.ExecuteAsyncMethod(tokens, id, options, timeout, TwitterStatus.Delete, function);
         }
@@ -63,7 +63,7 @@ namespace Twitterizer
         /// <param name="timeout">The timeout.</param>
         /// <param name="function">The function.</param>
         /// <returns></returns>
-        public static IAsyncResult Retweet(OAuthTokens tokens, decimal statusId, OptionalProperties options, TimeSpan timeout, Action<TwitterAsyncResponse<TwitterStatus>> function)
+        public static IAsyncResult Retweet(OAuthTokens tokens, string statusId, OptionalProperties options, TimeSpan timeout, Action<TwitterAsyncResponse<TwitterStatus>> function)
         {
             return AsyncUtility.ExecuteAsyncMethod(tokens, statusId, options, timeout, TwitterStatus.Retweet, function);
         }
@@ -77,7 +77,7 @@ namespace Twitterizer
         /// <param name="timeout">The timeout.</param>
         /// <param name="function">The function.</param>
         /// <returns></returns>
-        public static IAsyncResult Retweets(OAuthTokens tokens, decimal statusId, RetweetsOptions options, TimeSpan timeout, Action<TwitterAsyncResponse<TwitterStatusCollection>> function)
+        public static IAsyncResult Retweets(OAuthTokens tokens, string statusId, RetweetsOptions options, TimeSpan timeout, Action<TwitterAsyncResponse<TwitterStatusCollection>> function)
         {
             return AsyncUtility.ExecuteAsyncMethod(tokens, statusId, options, timeout, TwitterStatus.Retweets, function);
         }
@@ -91,7 +91,7 @@ namespace Twitterizer
         /// <param name="timeout">The timeout.</param>
         /// <param name="function">The function.</param>
         /// <returns></returns>
-        public static IAsyncResult Show(OAuthTokens tokens, decimal statusId, OptionalProperties options, TimeSpan timeout, Action<TwitterAsyncResponse<TwitterStatus>> function)
+        public static IAsyncResult Show(OAuthTokens tokens, string statusId, OptionalProperties options, TimeSpan timeout, Action<TwitterAsyncResponse<TwitterStatus>> function)
         {
             return AsyncUtility.ExecuteAsyncMethod(tokens, statusId, options, timeout, TwitterStatus.Show, function);
         }

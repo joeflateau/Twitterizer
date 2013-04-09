@@ -55,7 +55,7 @@ namespace Twitterizer.Commands
         /// <param name="listId">The list id.</param>
         /// <param name="userId">The user id.</param>
         /// <param name="options">The options.</param>
-        public RemoveListMemberCommand(OAuthTokens requestTokens, string ownerUsername, string listId, decimal userId, OptionalProperties options)
+        public RemoveListMemberCommand(OAuthTokens requestTokens, string ownerUsername, string listId, string userId, OptionalProperties options)
             : base(HTTPVerb.DELETE, string.Format(CultureInfo.CurrentCulture, "{0}/{1}/members.json", ownerUsername, listId), requestTokens, options)
         {
             if (requestTokens == null)
@@ -73,7 +73,7 @@ namespace Twitterizer.Commands
                 throw new ArgumentNullException("listId");
             }
 
-            if (userId <= 0)
+            if (userId == null)
             {
                 throw new ArgumentNullException("userId");
             }
@@ -85,7 +85,7 @@ namespace Twitterizer.Commands
         /// Gets or sets the user id.
         /// </summary>
         /// <value>The user id.</value>
-        public decimal UserId { get; set; }
+        public string UserId { get; set; }
 
         /// <summary>
         /// Initializes the command.

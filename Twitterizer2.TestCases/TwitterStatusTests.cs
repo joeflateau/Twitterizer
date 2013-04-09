@@ -17,7 +17,7 @@ namespace Twitterizer2.TestCases
         {
             OAuthTokens tokens = Configuration.GetTokens();
 
-            TwitterResponse<TwitterStatus> response = TwitterStatus.Show(tokens, 14772516348);
+            TwitterResponse<TwitterStatus> response = TwitterStatus.Show(tokens, "14772516348");
             TwitterStatus status = response.ResponseObject;
             Assert.IsNotNull(status);
             Assert.IsNotNullOrEmpty(status.Text);
@@ -30,7 +30,7 @@ namespace Twitterizer2.TestCases
         {
             OAuthTokens tokens = Configuration.GetTokens();
 
-            TwitterStatus missingStatus = TwitterStatus.Show(tokens, 1).ResponseObject;
+            TwitterStatus missingStatus = TwitterStatus.Show(tokens, "1").ResponseObject;
             Assert.IsNotNull(missingStatus);
         }
 
@@ -44,10 +44,10 @@ namespace Twitterizer2.TestCases
             StatusUpdateOptions options = new StatusUpdateOptions();
 
             TwitterStatus newStatus = TwitterStatus.Update(tokens, "Performing Twitterizer testing ...", options).ResponseObject;
-            Assert.That(newStatus.Id > 0);
+            Assert.That(newStatus.IdString != null);
 
             TwitterStatus deletedStatus = newStatus.Delete(tokens).ResponseObject;
-            Assert.That(newStatus.Id == deletedStatus.Id);
+            Assert.That(newStatus.IdString == deletedStatus.IdString);
         }
         
         [Category("Core")]
@@ -169,14 +169,14 @@ namespace Twitterizer2.TestCases
         {
             //OAuthTokens tokens = Configuration.GetTokens();
 
-            var statusResponse = TwitterStatus.Show(7183041864671232);
+            var statusResponse = TwitterStatus.Show("7183041864671232");
 
             List<TwitterStatus> conversation = new List<TwitterStatus>();
             conversation.Add(statusResponse.ResponseObject);
 
-            while (statusResponse.ResponseObject.InReplyToStatusId.HasValue)
+            while (statusResponse.ResponseObject.InReplyToStatusIdString != null)
             {
-                statusResponse = TwitterStatus.Show(statusResponse.ResponseObject.InReplyToStatusId.Value);
+                statusResponse = TwitterStatus.Show(statusResponse.ResponseObject.InReplyToStatusIdString);
 
                 conversation.Insert(0, statusResponse.ResponseObject);
             }

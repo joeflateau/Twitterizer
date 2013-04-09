@@ -59,14 +59,14 @@ namespace Twitterizer.Commands
         /// <param name="tokens">The request tokens.</param>
         /// <param name="statusId">The status id.</param>
         /// <param name="options">The options.</param>
-        public RetweetCommand(OAuthTokens tokens, decimal statusId, OptionalProperties options)
+        public RetweetCommand(OAuthTokens tokens, string statusId, OptionalProperties options)
             : base(
                 HTTPVerb.POST,
                 string.Format(CultureInfo.InvariantCulture, Path, statusId),
                 tokens,
                 options)
         {
-            if (statusId <= 0)
+            if (statusId == null)
             {
                 throw new ArgumentException("Status ID is invalid", "statusId");
             }

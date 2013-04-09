@@ -47,7 +47,7 @@ namespace Twitterizer2.TestCases
         {
             OAuthTokens tokens = Configuration.GetTokens();
 
-            var StatusResult = TwitterStatus.Show(tokens, 10506615291641857);
+            var StatusResult = TwitterStatus.Show(tokens, "10506615291641857");
             Assert.IsNotNull(StatusResult);
             Assert.That(StatusResult.Result == RequestResult.Success);
             Assert.IsNotNull(StatusResult.ResponseObject);
@@ -101,7 +101,7 @@ namespace Twitterizer2.TestCases
         {
             OAuthTokens tokens = Configuration.GetTokens();
 
-            var StatusResult = TwitterStatus.Show(tokens, 10506615291641857);
+            var StatusResult = TwitterStatus.Show(tokens, "10506615291641857");
             Assert.IsNotNull(StatusResult);
             Assert.That(StatusResult.Result == RequestResult.Success);
             Assert.IsNotNull(StatusResult.ResponseObject);

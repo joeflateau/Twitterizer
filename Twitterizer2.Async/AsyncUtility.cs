@@ -285,7 +285,7 @@ namespace Twitterizer
 #endif
         }
 
-        public static IAsyncResult ExecuteAsyncMethod<TResponse, TProperties>(OAuthTokens tokens, string s1, string s2, decimal d, TProperties properties, TimeSpan timeout, Func<OAuthTokens, string, string, decimal, TProperties, TwitterResponse<TResponse>> methodToCall, Action<TwitterAsyncResponse<TResponse>> function)
+        public static IAsyncResult ExecuteAsyncMethod<TResponse, TProperties>(OAuthTokens tokens, string s1, string s2, string d, TProperties properties, TimeSpan timeout, Func<OAuthTokens, string, string, string, TProperties, TwitterResponse<TResponse>> methodToCall, Action<TwitterAsyncResponse<TResponse>> function)
             where TResponse : ITwitterObject
             where TProperties : OptionalProperties
         {
