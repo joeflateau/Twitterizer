@@ -52,12 +52,21 @@ namespace Twitterizer
     public class TwitterUser : TwitterObject
     {
         #region Properties
+
         /// <summary>
         /// Gets or sets the User ID.
         /// </summary>
         /// <value>The User ID.</value>
         [DataMember, JsonProperty(PropertyName = "id")]
-        public decimal Id { get; set; }
+        public decimal Id
+        {
+            get { return decimal.Parse(StringId); }
+            set
+            {
+                // ignore any attempts to set this,
+                // hacky way to avoid bad id precision
+            }
+        }
 
         /// <summary>
         /// Gets or sets the string id.
