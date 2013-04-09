@@ -56,14 +56,22 @@ namespace Twitterizer
         /// </summary>
         /// <value>The status id.</value>
         [DataMember, JsonProperty(PropertyName = "id")]
-        public decimal Id { get; set; }
+        public decimal Id
+        {
+            get { return decimal.Parse(IdString); }
+            set
+            {
+                // ignore any attempts to set this,
+                // hacky way to avoid bad id precision
+            }
+        }
 
         /// <summary>
         /// Gets or sets the string id.
         /// </summary>
         /// <value>The string id.</value>
         [DataMember, JsonProperty(PropertyName = "id_str")]
-        public string StringId { get; set; }
+        public string IdString { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether this status message is truncated.
@@ -102,14 +110,44 @@ namespace Twitterizer
         /// </summary>
         /// <value>The user id.</value>
         [DataMember, JsonProperty(PropertyName = "in_reply_to_user_id")]
-        public decimal? InReplyToUserId { get; set; }
+        public decimal? InReplyToUserId
+        {
+            get { return InReplyToUserIdString == null ? null : (decimal?)decimal.Parse(InReplyToUserIdString); }
+            set
+            {
+                // ignore any attempts to set this,
+                // hacky way to avoid bad id precision
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the user id the status is in reply to.
+        /// </summary>
+        /// <value>The user id.</value>
+        [DataMember, JsonProperty(PropertyName = "in_reply_to_user_id_str")]
+        public string InReplyToUserIdString { get; set; }
 
         /// <summary>
         /// Gets or sets the status id the status is in reply to.
         /// </summary>
         /// <value>The status id.</value>
         [DataMember, JsonProperty(PropertyName = "in_reply_to_status_id")]
-        public decimal? InReplyToStatusId { get; set; }
+        public decimal? InReplyToStatusId
+        {
+            get { return InReplyToStatusIdString == null ? null : (decimal?)decimal.Parse(InReplyToStatusIdString); }
+            set
+            {
+                // ignore any attempts to set this,
+                // hacky way to avoid bad id precision
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the status id the status is in reply to.
+        /// </summary>
+        /// <value>The status id.</value>
+        [DataMember, JsonProperty(PropertyName = "in_reply_to_status_id_str")]
+        public string InReplyToStatusIdString { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether the authenticated user has favorited this status.
