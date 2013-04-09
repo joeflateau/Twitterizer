@@ -52,6 +52,21 @@ namespace Twitterizer
     {
         #region Properties
         /// <summary>
+        /// Gets or sets the status id.
+        /// </summary>
+        /// <value>The status id.</value>
+        [DataMember, JsonProperty(PropertyName = "id")]
+        public decimal Id
+        {
+            get { return decimal.Parse(IdString); }
+            set
+            {
+                // ignore any attempts to set this,
+                // hacky way to avoid bad id precision
+            }
+        }
+
+        /// <summary>
         /// Gets or sets the string id.
         /// </summary>
         /// <value>The string id.</value>
@@ -94,8 +109,38 @@ namespace Twitterizer
         /// Gets or sets the user id the status is in reply to.
         /// </summary>
         /// <value>The user id.</value>
+        [DataMember, JsonProperty(PropertyName = "in_reply_to_user_id")]
+        public decimal? InReplyToUserId { get; set; }
+        {
+            get { return InReplyToUserIdString == null ? null : (decimal?)decimal.Parse(InReplyToUserIdString); }
+            set
+            {
+                // ignore any attempts to set this,
+                // hacky way to avoid bad id precision
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the user id the status is in reply to.
+        /// </summary>
+        /// <value>The user id.</value>
         [DataMember, JsonProperty(PropertyName = "in_reply_to_user_id_str")]
         public string InReplyToUserIdString { get; set; }
+
+        /// <summary>
+        /// Gets or sets the status id the status is in reply to.
+        /// </summary>
+        /// <value>The status id.</value>
+        [DataMember, JsonProperty(PropertyName = "in_reply_to_status_id")]
+        public decimal? InReplyToStatusId { get; set; }
+        {
+            get { return InReplyToStatusIdString == null ? null : (decimal?)decimal.Parse(InReplyToStatusIdString); }
+            set
+            {
+                // ignore any attempts to set this,
+                // hacky way to avoid bad id precision
+            }
+        }
 
         /// <summary>
         /// Gets or sets the status id the status is in reply to.
