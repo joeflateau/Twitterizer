@@ -56,13 +56,11 @@ namespace Twitterizer
         /// </summary>
         /// <value>The status id.</value>
         [DataMember, JsonProperty(PropertyName = "id")]
-        public decimal Id
+        public long? Id
         {
-            get { return decimal.Parse(IdString); }
-            set
+            get
             {
-                // ignore any attempts to set this,
-                // hacky way to avoid bad id precision
+                return IdString == null ? null : (long?)long.Parse(IdString);
             }
         }
 
@@ -110,13 +108,11 @@ namespace Twitterizer
         /// </summary>
         /// <value>The user id.</value>
         [DataMember, JsonProperty(PropertyName = "in_reply_to_user_id")]
-        public decimal? InReplyToUserId { get; set; }
+        public long? InReplyToUserId
         {
-            get { return InReplyToUserIdString == null ? null : (decimal?)decimal.Parse(InReplyToUserIdString); }
-            set
+            get
             {
-                // ignore any attempts to set this,
-                // hacky way to avoid bad id precision
+                return InReplyToUserIdString == null ? null : (long?)long.Parse(InReplyToUserIdString);
             }
         }
 
@@ -132,13 +128,11 @@ namespace Twitterizer
         /// </summary>
         /// <value>The status id.</value>
         [DataMember, JsonProperty(PropertyName = "in_reply_to_status_id")]
-        public decimal? InReplyToStatusId { get; set; }
+        public long? InReplyToStatusId
         {
-            get { return InReplyToStatusIdString == null ? null : (decimal?)decimal.Parse(InReplyToStatusIdString); }
-            set
+            get
             {
-                // ignore any attempts to set this,
-                // hacky way to avoid bad id precision
+                return InReplyToStatusIdString == null ? null : (long?)long.Parse(InReplyToStatusIdString);
             }
         }
 

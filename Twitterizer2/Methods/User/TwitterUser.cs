@@ -58,13 +58,11 @@ namespace Twitterizer
         /// </summary>
         /// <value>The User ID.</value>
         [DataMember, JsonProperty(PropertyName = "id")]
-        public decimal Id
+        public long? Id
         {
-            get { return decimal.Parse(StringId); }
-            set
+            get
             {
-                // ignore any attempts to set this,
-                // hacky way to avoid bad id precision
+                return IdString == null ? null : (long?)long.Parse(IdString);
             }
         }
 
@@ -72,7 +70,7 @@ namespace Twitterizer
         /// Gets or sets the string id.
         /// </summary>
         /// <value>The string id.</value>
-        [DataMember, JsonProperty(PropertyName = "str_id")]
+        [DataMember, JsonProperty(PropertyName = "id_str")]
         public string IdString { get; set; }
 
         /// <summary>
