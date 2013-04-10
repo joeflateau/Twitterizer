@@ -46,8 +46,8 @@ namespace Twitterizer.Streaming
 #if !SILVERLIGHT        
         [DataMember]
 #endif
-        [JsonProperty(PropertyName = "user_id")]
-        public decimal UserId { get; set; }
+        [JsonProperty(PropertyName = "user_id_str")]
+        public string UserIdString { get; set; }
 
         /// <summary>
         /// Gets or sets the id of the event. This is the status that was affected.
@@ -56,7 +56,7 @@ namespace Twitterizer.Streaming
 #if !SILVERLIGHT        
         [DataMember]
 #endif
-        [JsonProperty(PropertyName = "id")]
-        public decimal Id { get; set; }
+        [JsonProperty(PropertyName = "id_str")]
+        public string IdString { get; set; }
     }
 }
