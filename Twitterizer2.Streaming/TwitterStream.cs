@@ -349,54 +349,21 @@ namespace Twitterizer.Streaming
                     {
                         try
                         {
-                            // This will keep the count of open brackets
-                            // When { is encountered, the count is incremented
-                            // When } is encountered, the count is decremented
-                            int bracketCount = 0;
-
-                            // The blockBuilder will hold the string of the current block of json.
-                            StringBuilder blockBuilder = new StringBuilder();
-
                             while (!stopReceived && !reader.EndOfStream)
                             {
-                                string lineOfData = reader.ReadLine();
+                                string line_of_data = reader.ReadLine();
 
-                                if (stopReceived || lineOfData == null)
+                                if (stopReceived || line_of_data == null)
                                 {
                                     break;
                                 }
 
-                                for (int index = 0; index < lineOfData.Length; index++)
+                                if (rawJsonCallback != null)
                                 {
-                                    blockBuilder.Append(lineOfData[index]);
-
-                                    if (!new[] { '{', '}' }.Contains(lineOfData[index]))
-                                    {
-                                        continue;
-                                    }
-
-                                    if (lineOfData[index] == '{')
-                                    {
-                                        bracketCount++;
-                                    }
-
-                                    if (lineOfData[index] == '}')
-                                    {
-                                        bracketCount--;
-                                    }
-
-                                    if (bracketCount == 0)
-                                    {
-                                        var blockbuilderstring = blockBuilder.ToString();
-
-                                        if (rawJsonCallback != null)
-                                        {
-                                            rawJsonCallback(blockbuilderstring);
-                                        }
-                                        ThreadPool.QueueUserWorkItem(delegate { ParseMessage(blockbuilderstring.Trim()); });
-                                        blockBuilder = new StringBuilder();
-                                    }
+                                    rawJsonCallback(line_of_data);
                                 }
+
+                                ThreadPool.QueueUserWorkItem(delegate { ParseMessage(line_of_data.Trim()); });
                             }
 
                             reader.Close();
