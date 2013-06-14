@@ -32,6 +32,9 @@
 // <summary>The date converter for Twitter API dates</summary>
 //-----------------------------------------------------------------------
 
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+
 namespace Twitterizer
 {
     using System;
@@ -69,6 +72,33 @@ namespace Twitterizer
                 DateTimeStyles.None,
                 out parsedDate) ? parsedDate : new DateTime();
         }
+
+        /// <summary>
+        /// Writes the json.
+        /// </summary>
+        /// <param name="writer">The writer.</param>
+        /// <param name="value">The value.</param>
+        /// <param name="serializer">The serializer.</param>
+        public override void WriteJson(Newtonsoft.Json.JsonWriter writer, object value, Newtonsoft.Json.JsonSerializer serializer)
+        {
+            if (value.GetType() != typeof(DateTime))
+                throw new ArgumentOutOfRangeException("value", "The value provided was not the expected data type.");
+
+            writer.WriteValue(((DateTime)value).ToString(DateFormat, CultureInfo.InvariantCulture));
+        }
+    }
+
+    /// <summary>
+    /// Converts date strings returned by the Twitter API into <see cref="System.DateTime"/>
+    /// Converts <see cref="System.DateTime"/> into date strings returned by the old Twitter Search API
+    /// </summary>
+    public class TwitterizerSearchDateConverter : TwitterizerDateConverter
+    {
+        /// <summary>
+        /// The date pattern for most dates returned by the API
+        /// </summary>
+        // Thu, 06 Oct 2011 19:36:17 +0000
+        protected new const string DateFormat = "ddd, dd MMM yyyy HH:mm:ss zz00";
 
         /// <summary>
         /// Writes the json.

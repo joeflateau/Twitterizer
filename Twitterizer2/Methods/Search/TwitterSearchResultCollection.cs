@@ -46,7 +46,7 @@ namespace Twitterizer
 #if !SILVERLIGHT
     [Serializable]
 #endif
-    public class TwitterSearchResultCollection : Core.TwitterCollection<TwitterStatus>, ITwitterObject
+    public class TwitterSearchResultCollection : Core.TwitterCollection<TwitterSearchResult>, ITwitterObject
     {
         /// <summary>
         /// Gets or sets the completed_in.
