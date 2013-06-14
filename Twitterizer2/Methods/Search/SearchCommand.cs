@@ -52,7 +52,7 @@ namespace Twitterizer.Commands
         /// <param name="query">The query.</param>
         /// <param name="options">The options.</param>
         public SearchCommand(OAuthTokens requestTokens, string query, SearchOptions options)
-            : base(HTTPVerb.GET, "search.json", requestTokens, options)
+            : base(HTTPVerb.GET, "search/tweets.json", requestTokens, options)
         {
             if (string.IsNullOrEmpty(query))
             {
@@ -108,12 +108,7 @@ namespace Twitterizer.Commands
 
             if (options.NumberPerPage > 0)
             {
-                this.RequestParameters.Add("rpp", options.NumberPerPage.ToString(unitedStatesEnglishCulture));
-            }
-
-            if (options.PageNumber > 0)
-            {
-                this.RequestParameters.Add("page", options.PageNumber.ToString(unitedStatesEnglishCulture));
+                this.RequestParameters.Add("count", options.NumberPerPage.ToString(unitedStatesEnglishCulture));
             }
 
             if (options.SinceDate > new DateTime())

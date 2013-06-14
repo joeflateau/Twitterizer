@@ -450,7 +450,7 @@ namespace Twitterizer
         private void SetupOAuth()
         {
             // We only sign oauth requests
-            if (!this.UseOAuth)
+            if (!this.UseOAuth || (!Tokens.HasAccessToken && !string.IsNullOrEmpty(Tokens.BearerToken)))
             {
                 return;
             }
@@ -637,22 +637,30 @@ namespace Twitterizer
         public string GenerateAuthorizationHeader()
         {
             StringBuilder authHeaderBuilder = new StringBuilder();
-            authHeaderBuilder.AppendFormat("OAuth realm=\"{0}\"", Realm);
-
-            var sortedParameters = from p in this.Parameters
-                                   where OAuthParametersToIncludeInHeader.Contains(p.Key)
-                                   orderby p.Key, UrlEncode( (p.Value is string) ? (string)p.Value : string.Empty)
-                                   select p;
-
-            foreach (var item in sortedParameters)
+            if (Tokens.BearerToken != null)
             {
-                authHeaderBuilder.AppendFormat(
-                    ",{0}=\"{1}\"",
-                    UrlEncode(item.Key),
-                    UrlEncode(item.Value as string));
+                authHeaderBuilder.AppendFormat("Bearer {0}", Tokens.BearerToken);
             }
+            else
+            {
+                authHeaderBuilder.AppendFormat("OAuth realm=\"{0}\"", Realm);
 
-            authHeaderBuilder.AppendFormat(",oauth_signature=\"{0}\"", UrlEncode(this.Parameters["oauth_signature"] as string));
+                var sortedParameters = from p in this.Parameters
+                                       where OAuthParametersToIncludeInHeader.Contains(p.Key)
+                                       orderby p.Key, UrlEncode((p.Value is string) ? (string) p.Value : string.Empty)
+                                       select p;
+
+                foreach (var item in sortedParameters)
+                {
+                    authHeaderBuilder.AppendFormat(
+                        ",{0}=\"{1}\"",
+                        UrlEncode(item.Key),
+                        UrlEncode(item.Value as string));
+                }
+
+                authHeaderBuilder.AppendFormat(",oauth_signature=\"{0}\"",
+                                               UrlEncode(this.Parameters["oauth_signature"] as string));
+            }
 
             return authHeaderBuilder.ToString();
         }

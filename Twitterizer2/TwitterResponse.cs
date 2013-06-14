@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Twitterizer
 {
@@ -43,6 +44,12 @@ namespace Twitterizer
         public string ErrorMessage { get; set; }
 
         /// <summary>
+        /// Gets or sets the error details returned by the Twitter.
+        /// </summary>
+        /// <value>The error details.</value>
+        public IEnumerable<TwitterErrorDetail> Errors { get; set; }
+
+        /// <summary>
         /// Gets or sets the oauth tokens provided for the request.
         /// </summary>
         /// <value>The tokens.</value>
@@ -59,5 +66,11 @@ namespace Twitterizer
         /// </summary>
         /// <value>The access level.</value>
         public AccessLevel AccessLevel { get; set; }
+
+        /// <summary>
+        /// Gets or sets the Request Builder.
+        /// </summary>
+        /// <value>The request builder.</value>
+        public WebRequestBuilder RequestBuilder { get; set; }
     }
 }

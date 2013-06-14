@@ -31,6 +31,10 @@
 // <author>Ricky Smith</author>
 // <summary>The base class for all command classes.</summary>
 //-----------------------------------------------------------------------
+
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+
 namespace Twitterizer.Core
 {
     using System;
@@ -178,6 +182,8 @@ namespace Twitterizer.Core
             {
 				WebRequestBuilder requestBuilder = new WebRequestBuilder(this.Uri, this.Verb, this.Tokens) { Multipart = this.Multipart };
 
+                twitterResponse.RequestBuilder = requestBuilder;
+
 #if !SILVERLIGHT
                 if (this.OptionalProperties != null)
                     requestBuilder.Proxy = this.OptionalProperties.Proxy;
@@ -260,8 +266,18 @@ namespace Twitterizer.Core
                 // Try to read the error message, if there is one.
                 try
                 {
-                    TwitterErrorDetails errorDetails = SerializationHelper<TwitterErrorDetails>.Deserialize(responseData);
-                    twitterResponse.ErrorMessage = errorDetails.ErrorMessage;
+                    var respString = Encoding.UTF8.GetString(responseData, 0, responseData.Length);
+                    var errorsString = JObject.Parse(respString).SelectToken("errors").ToString();
+                    var errorDetails = JsonConvert.DeserializeObject<List<TwitterErrorDetail>>(errorsString);
+                    twitterResponse.Errors = errorDetails;
+                    if (errorDetails.Count == 1)
+                    {
+                        twitterResponse.ErrorMessage = errorDetails.First().Message;
+                    }
+                    if (errorDetails.Count > 1)
+                    {
+                        twitterResponse.ErrorMessage = "More than one error, see Errors property";
+                    }
                 }
                 catch (Exception)
                 {
@@ -371,24 +387,28 @@ namespace Twitterizer.Core
         /// </summary>
         /// <param name="responseHeaders">The headers of the web response.</param>
         /// <returns>An object that contains the rate-limiting info contained in the response headers</returns>
-        private static RateLimiting ParseRateLimitHeaders(WebHeaderCollection responseHeaders)
+        internal static RateLimiting ParseRateLimitHeaders(WebHeaderCollection responseHeaders)
         {
             RateLimiting rateLimiting = new RateLimiting();
 
-            if (responseHeaders.AllKeys.Contains("X-RateLimit-Limit"))
+            const string x_ratelimit_limit = "X-Rate-Limit-Limit";
+            const string x_ratelimit_remaining = "X-Rate-Limit-Remaining";
+            const string x_ratelimit_reset = "X-Rate-Limit-Reset";
+
+            if (responseHeaders.AllKeys.Contains(x_ratelimit_limit))
             {
-                rateLimiting.Total = int.Parse(responseHeaders["X-RateLimit-Limit"], CultureInfo.InvariantCulture);
+                rateLimiting.Total = int.Parse(responseHeaders[x_ratelimit_limit], CultureInfo.InvariantCulture);
             }
 
-            if (responseHeaders.AllKeys.Contains("X-RateLimit-Remaining"))
+            if (responseHeaders.AllKeys.Contains(x_ratelimit_remaining))
             {
-                rateLimiting.Remaining = int.Parse(responseHeaders["X-RateLimit-Remaining"], CultureInfo.InvariantCulture);
+                rateLimiting.Remaining = int.Parse(responseHeaders[x_ratelimit_remaining], CultureInfo.InvariantCulture);
             }
 
-            if (!string.IsNullOrEmpty(responseHeaders["X-RateLimit-Reset"]))
+            if (!string.IsNullOrEmpty(responseHeaders[x_ratelimit_reset]))
             {
                 rateLimiting.ResetDate = DateTime.SpecifyKind(new DateTime(1970, 1, 1, 0, 0, 0, 0)
-                    .AddSeconds(double.Parse(responseHeaders["X-RateLimit-Reset"], CultureInfo.InvariantCulture)), DateTimeKind.Utc);
+                    .AddSeconds(double.Parse(responseHeaders[x_ratelimit_reset], CultureInfo.InvariantCulture)), DateTimeKind.Utc);
             }
             else if(!string.IsNullOrEmpty(responseHeaders["Retry-After"]))
             {

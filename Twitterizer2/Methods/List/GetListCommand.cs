@@ -68,7 +68,7 @@ namespace Twitterizer.Commands
                 throw new ArgumentNullException("requestTokens");
             }
 
-            if (!string.IsNullOrEmpty(slug) ^ listId > 0)
+            if (!string.IsNullOrEmpty(slug) && listId > 0)
             {
                 throw new ArgumentException("You must supply a list id number or slug, but not both.");
             }

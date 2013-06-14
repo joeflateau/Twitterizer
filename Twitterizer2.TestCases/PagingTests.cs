@@ -23,7 +23,7 @@
 
             string firstId = response.ResponseObject[0].IdString;
 
-            response = TwitterTimeline.Mentions(tokens, new TimelineOptions { Page = ++response.ResponseObject.Page });
+            response = TwitterTimeline.Mentions(tokens, new TimelineOptions { Page = response.ResponseObject.Page + 1 });
             Assert.IsNotNull(response);
             Assert.That(response.Result == RequestResult.Success);
             Assert.IsNotNull(response.ResponseObject);
@@ -48,7 +48,7 @@
 
             string firstId = response.ResponseObject[0].IdString;
 
-            response = TwitterTimeline.UserTimeline(tokens, new UserTimelineOptions { Page = ++response.ResponseObject.Page });
+            response = TwitterTimeline.UserTimeline(tokens, new UserTimelineOptions { Page = response.ResponseObject.Page + 1 });
             Assert.IsNotNull(response);
             Assert.That(response.Result == RequestResult.Success);
             Assert.IsNotNull(response.ResponseObject);
@@ -75,9 +75,7 @@
 
             string firstId = response.ResponseObject[0].IdString;
 
-#pragma warning disable 618
-            response = TwitterTimeline.FriendTimeline(tokens, new TimelineOptions { Page = ++response.ResponseObject.Page });
-#pragma warning restore 618
+            response = TwitterTimeline.FriendTimeline(tokens, new TimelineOptions { Page = response.ResponseObject.Page + 1 });
             Assert.IsNotNull(response);
             Assert.That(response.Result == RequestResult.Success);
             Assert.IsNotNull(response.ResponseObject);

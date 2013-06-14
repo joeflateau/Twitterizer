@@ -51,6 +51,11 @@ namespace Twitterizer
         /// </summary>
         /// <value>The access token secret.</value>
         public string AccessTokenSecret { internal get; set; }
+        /// <summary>
+        /// Gets or sets the bearer token.
+        /// </summary>
+        /// <value>The bearer token.</value>
+        public string BearerToken { internal get; set; }
 
         /// <summary>
         /// Gets or sets the consumer key.

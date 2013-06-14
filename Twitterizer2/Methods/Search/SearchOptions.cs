@@ -74,7 +74,6 @@ namespace Twitterizer
         /// </summary>
         public SearchOptions()
         {
-            this.APIBaseAddress = "http://search.twitter.com/";
         }
 
         /// <summary>
@@ -100,12 +99,6 @@ namespace Twitterizer
         /// </summary>
         /// <value>The number per page.</value>
         public int NumberPerPage { get; set; }
-
-        /// <summary>
-        /// Gets or sets the page number.
-        /// </summary>
-        /// <value>The page number.</value>
-        public int PageNumber { get; set; }
 
         /// <summary>
         /// Gets or sets the since date.

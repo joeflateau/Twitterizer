@@ -98,7 +98,7 @@ namespace Twitterizer2.TestCases
             OAuthTokens tokens = Configuration.GetTokens();
 
             TwitterResponse<TwitterRelatedTweetsCollection> response =
-                TwitterStatus.RelatedResultsShow(tokens, 25166473830);
+                TwitterStatus.RelatedResultsShow(tokens, "25166473830");
 
             Assert.IsNotNull(response);
             Assert.That(response.Result == RequestResult.Success);

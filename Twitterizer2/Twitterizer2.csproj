@@ -119,7 +119,7 @@
     <Compile Include="Core\TwitterIdCollection.cs" />
     <Compile Include="Core\TwitterImage.cs" />
     <Compile Include="Core\TwitterizerDateConverter.cs" />
-    <Compile Include="Exceptions\TwitterErrorDetails.cs" />
+    <Compile Include="Exceptions\TwitterErrorDetail.cs" />
     <Compile Include="Methods\Account\TwitterAccount.cs" />
     <Compile Include="Methods\Account\UpdateProfileBackgroundImageCommand.cs" />
     <Compile Include="Methods\Account\UpdateProfileBackgroundImageOptions.cs" />
@@ -362,4 +362,5 @@
     <PreBuildEvent>
     </PreBuildEvent>
   </PropertyGroup>
+  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
 </Project>

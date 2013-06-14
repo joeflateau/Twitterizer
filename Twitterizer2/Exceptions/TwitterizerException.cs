@@ -93,16 +93,16 @@ namespace Twitterizer
 
                 if (response.ContentType.StartsWith("application/json", StringComparison.OrdinalIgnoreCase))
                 {
-                    this.ErrorDetails = SerializationHelper<TwitterErrorDetails>.Deserialize(responseData, null);
+                    this.ErrorDetail = SerializationHelper<TwitterErrorDetail>.Deserialize(responseData, null);
                 }
 #if !SILVERLIGHT
                 else if (response.ContentType.StartsWith("text/xml", StringComparison.OrdinalIgnoreCase))
                 {
                     // Try to deserialize as XML (specifically OAuth requests)
                     System.Xml.Serialization.XmlSerializer ds =
-                        new System.Xml.Serialization.XmlSerializer(typeof(TwitterErrorDetails));
+                        new System.Xml.Serialization.XmlSerializer(typeof(TwitterErrorDetail));
 
-                    this.ErrorDetails = ds.Deserialize(new MemoryStream(responseData)) as TwitterErrorDetails;
+                    this.ErrorDetail = ds.Deserialize(new MemoryStream(responseData)) as TwitterErrorDetail;
                 }
 #endif
             }
@@ -131,7 +131,7 @@ namespace Twitterizer
         /// Gets or sets the error details.
         /// </summary>
         /// <value>The error details.</value>
-        public TwitterErrorDetails ErrorDetails { get; protected set; }
+        public TwitterErrorDetail ErrorDetail { get; protected set; }
 
         /// <summary>
         /// Gets the response that the remote host returned.
@@ -189,23 +189,7 @@ namespace Twitterizer
         /// <param name="response">The response.</param>
         protected void ParseRateLimitHeaders(WebResponse response)
         {
-            this.RateLimiting = new RateLimiting();
-
-            if (response.Headers.AllKeys.Contains("X-RateLimit-Limit") && !string.IsNullOrEmpty(response.Headers["X-RateLimit-Limit"]))
-            {
-                this.RateLimiting.Total = int.Parse(response.Headers["X-RateLimit-Limit"], CultureInfo.InvariantCulture);
-            }
-
-            if (response.Headers.AllKeys.Contains("X-RateLimit-Remaining") && !string.IsNullOrEmpty(response.Headers["X-RateLimit-Remaining"]))
-            {
-                this.RateLimiting.Remaining = int.Parse(response.Headers["X-RateLimit-Remaining"], CultureInfo.InvariantCulture);
-            }
-
-            if (!string.IsNullOrEmpty(response.Headers["X-RateLimit-Reset"]) && !string.IsNullOrEmpty(response.Headers["X-RateLimit-Reset"]))
-            {
-                this.RateLimiting.ResetDate = DateTime.SpecifyKind(new DateTime(1970, 1, 1, 0, 0, 0, 0)
-                    .AddSeconds(double.Parse(response.Headers["X-RateLimit-Reset"], CultureInfo.InvariantCulture)), DateTimeKind.Utc);
-            }
+            this.RateLimiting = TwitterCommand<ITwitterObject>.ParseRateLimitHeaders(response.Headers);
         }
     }
 }

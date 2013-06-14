@@ -32,6 +32,8 @@
 // <summary>Provides simple methods to simplify OAuth interaction.</summary>
 //-----------------------------------------------------------------------
 
+using Newtonsoft.Json.Linq;
+
 namespace Twitterizer
 {
     using System;
@@ -354,15 +356,63 @@ namespace Twitterizer
         public static void AddOAuthEchoHeader(WebRequest request, OAuthTokens tokens)
         {
             WebRequestBuilder builder = new WebRequestBuilder(
-                new Uri("https://api.twitter.com/1/account/verify_credentials.json"), 
+                new Uri("https://api.twitter.com/1.1/account/verify_credentials.json"), 
                 HTTPVerb.POST,
 				tokens);
 
             builder.PrepareRequest();
 
             request.Headers.Add("X-Verify-Credentials-Authorization", builder.GenerateAuthorizationHeader());
-            request.Headers.Add("X-Auth-Service-Provider", "https://api.twitter.com/1/account/verify_credentials.json");
+            request.Headers.Add("X-Auth-Service-Provider", "https://api.twitter.com/1.1/account/verify_credentials.json");
         }
 #endif
+
+        public static string GetBearerToken(string consumerKey, string consumerSecret)
+        {
+            if (string.IsNullOrEmpty(consumerKey))
+            {
+                throw new ArgumentNullException("consumerKey");
+            }
+
+            if (string.IsNullOrEmpty(consumerSecret))
+            {
+                throw new ArgumentNullException("consumerSecret");
+            }
+
+            var tokenCredentials = consumerKey + ":" + consumerSecret;
+            var encodedTokenCredentials = Convert.ToBase64String(Encoding.UTF8.GetBytes(tokenCredentials));
+
+            HttpWebRequest request = (HttpWebRequest) WebRequest.Create("https://api.twitter.com/oauth2/token");
+            request.Method = "POST";
+            request.Headers.Add("Authorization", "Basic " + encodedTokenCredentials);
+            request.ContentType = "application/x-www-form-urlencoded;charset=UTF-8";
+            var body = Encoding.UTF8.GetBytes("grant_type=client_credentials");
+            
+            request.ContentLength = body.Length;
+            var requestStream = request.GetRequestStream();
+            requestStream.Write(body, 0, body.Length);
+
+            try
+            {
+                var response = request.GetResponse();
+                var responseStream = response.GetResponseStream();
+                var responseReader = new StreamReader(responseStream);
+                var responseJson = responseReader.ReadToEnd();
+                var responseJObject = JObject.Parse(responseJson);
+                var token_type = responseJObject.SelectToken("token_type").Value<string>();
+                if (token_type != "bearer")
+                {
+                    throw new InvalidOperationException("Twitter responded with a token type other than \"bearer\": \"" + token_type + "\"");
+                }
+                return responseJObject.SelectToken("access_token").Value<string>();
+            }
+            catch (WebException wex)
+            {
+                var responseStream = wex.Response.GetResponseStream();
+                var responseReader = new StreamReader(responseStream);
+                var responseText = responseReader.ReadToEnd();
+                throw new Exception(responseText, wex);
+            }
+        }
     }
 }

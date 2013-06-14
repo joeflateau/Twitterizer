@@ -46,7 +46,7 @@ namespace Twitterizer
 #if !SILVERLIGHT
     [Serializable]
 #endif
-    public class TwitterSearchResultCollection : Core.TwitterCollection<TwitterSearchResult>, ITwitterObject
+    public class TwitterSearchResultCollection : Core.TwitterCollection<TwitterStatus>, ITwitterObject
     {
         /// <summary>
         /// Gets or sets the completed_in.
@@ -70,20 +70,6 @@ namespace Twitterizer
         public string MaxIdStr { get; internal set; }
 
         /// <summary>
-        /// Gets or sets the next_page.
-        /// </summary>
-        /// <param name="value">The value.</param>
-        /// <returns></returns>
-        public string NextPage { get; internal set; }
-
-        /// <summary>
-        /// Gets or sets the page.
-        /// </summary>
-        /// <param name="value">The value.</param>
-        /// <returns></returns>
-        public int Page { get; internal set; }
-
-        /// <summary>
         /// Gets or sets the query.
         /// </summary>
         /// <param name="value">The value.</param>
@@ -104,17 +90,17 @@ namespace Twitterizer
         /// <returns></returns>
         internal static TwitterSearchResultCollection Deserialize(JObject value)
         {
-            if (value == null || value["results"] == null)
+            if (value == null || value["statuses"] == null)
                 return null;
 
-            TwitterSearchResultCollection result = JsonConvert.DeserializeObject<TwitterSearchResultCollection>(value["results"].ToString());
-            result.CompletedIn = value.SelectToken("completed_in").Value<double>();
-            result.MaxId = value.SelectToken("max_id").Value<long>();
-            result.MaxIdStr = value.SelectToken("max_id_str").Value<string>();
-            result.NextPage = value.SelectToken("next_page").Value<string>();
-            result.Page = value.SelectToken("page").Value<int>();
-            result.Query = value.SelectToken("query").Value<string>();
-            result.RefreshUrl = value.SelectToken("refresh_url").Value<string>();
+            TwitterSearchResultCollection result = JsonConvert.DeserializeObject<TwitterSearchResultCollection>(value["statuses"].ToString());
+
+            var meta = value.SelectToken("search_metadata");
+            result.CompletedIn = meta.SelectToken("completed_in").Value<double>();
+            result.MaxId = meta.SelectToken("max_id").Value<long>();
+            result.MaxIdStr = meta.SelectToken("max_id_str").Value<string>();
+            result.Query = meta.SelectToken("query").Value<string>();
+            result.RefreshUrl = meta.SelectToken("refresh_url").Value<string>();
 
             return result;
         }
